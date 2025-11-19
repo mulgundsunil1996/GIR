@@ -382,13 +382,15 @@ col1, col2, col3 = st.columns([1.2, 1, 1])
 
 with col1:
     st.markdown("""
-    <div class="input-card">
-        <h4 style="margin-top: 0; color: #424242;">⚖️ Patient Weight</h4>
+    <div class="input-card" role="region" aria-labelledby="weight-label">
+        <h4 id="weight-label" style="margin-top: 0; color: #424242;">⚖️ Patient Weight</h4>
         <p style="font-size: 12px; color: #666; margin-bottom: 15px;">Enter weight in grams</p>
     </div>
     """, unsafe_allow_html=True)
     weight_g = st.number_input("Weight (grams)", min_value=1.0, value=1850.0, format="%.0f",
-                              help="Typical range: 500-4000g for pediatric patients")
+                              help="Typical range: 500-4000g for pediatric patients",
+                              key="weight_input",
+                              aria_label="Patient weight in grams")
 
 with col2:
     st.markdown("""
