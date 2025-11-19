@@ -116,10 +116,81 @@ h3 { color: #616161; font-weight: 500; }
 
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
-    .medical-header { padding: 20px; }
-    .input-card { padding: 16px; }
-    .result-card { padding: 16px; }
-    .concentration-display { font-size: 2rem; }
+    .medical-header {
+        padding: 20px;
+        text-align: center;
+    }
+    .medical-header h1 {
+        font-size: 1.8rem !important;
+    }
+    .input-card {
+        padding: 16px;
+        margin: 10px 0;
+    }
+    .result-card {
+        padding: 16px;
+        margin: 10px 0;
+    }
+    .concentration-display {
+        font-size: 2rem;
+        margin: 15px 0;
+    }
+
+    /* Touch-friendly footer layout */
+    .footer {
+        padding: 15px;
+        text-align: center;
+    }
+    .footer div {
+        text-align: center !important;
+        margin: 10px 0;
+    }
+
+    /* Stack mixing instructions on mobile */
+    .mixing-step {
+        padding: 10px;
+        margin: 5px 0;
+    }
+
+    /* Improve button spacing for touch */
+    .stButton > button {
+        width: 100%;
+        margin: 5px 0;
+        padding: 15px 20px;
+        font-size: 16px;
+        min-height: 48px;
+    }
+
+    /* Mobile-friendly metrics */
+    .stMetric {
+        margin-bottom: 10px;
+    }
+
+    /* Mobile input improvements */
+    .stNumberInput > div > div > input {
+        font-size: 16px; /* Prevent zoom on iOS */
+        padding: 12px;
+        min-height: 44px;
+    }
+}
+
+/* Tablet responsiveness */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .medical-header h1 {
+        font-size: 2.2rem !important;
+    }
+    .concentration-display {
+        font-size: 2.2rem;
+    }
+}
+
+/* Very large screens */
+@media (min-width: 1200px) {
+    .medical-header {
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+    }
 }
 
 /* Animation for results */
