@@ -281,8 +281,8 @@ h3 { color: #616161; font-weight: 500; }
 """, unsafe_allow_html=True)
 # Enhanced Medical Header
 st.markdown("""
-<div class="medical-header">
-    <h1 style="margin: 0; font-size: 2.5rem;">
+<div class="medical-header" role="banner" aria-label="GIR Calculator Application Header">
+    <h1 style="margin: 0; font-size: 2.5rem;" aria-label="Application Title">
         🏥 Dextrose Calculator — GIR Calculator
     </h1>
     <p style="margin: 15px 0 0 0; font-size: 1.1rem; opacity: 0.9;">
