@@ -239,18 +239,52 @@ if "calculated" not in st.session_state:
     st.session_state.calculated = False
 
 # -----------------------
-# Inputs (with increments)
+# Enhanced Patient Input Section
 # -----------------------
-st.header("Patient inputs")
+st.markdown("""
+<div class="input-card">
+    <h2 style="margin-top: 0; color: #1976d2; display: flex; align-items: center;">
+        👶 Patient Information
+    </h2>
+    <p style="color: #666; margin-bottom: 20px;">
+        Enter the patient's parameters below. All calculations are based on these values.
+    </p>
+</div>
+""", unsafe_allow_html=True)
+
 col1, col2, col3 = st.columns([1.2, 1, 1])
+
 with col1:
-    weight_g = st.number_input("Patient weight (grams)", min_value=1.0, value=1850.0, format="%.0f")
+    st.markdown("""
+    <div class="input-card">
+        <h4 style="margin-top: 0; color: #424242;">⚖️ Patient Weight</h4>
+        <p style="font-size: 12px; color: #666; margin-bottom: 15px;">Enter weight in grams</p>
+    </div>
+    """, unsafe_allow_html=True)
+    weight_g = st.number_input("Weight (grams)", min_value=1.0, value=1850.0, format="%.0f",
+                              help="Typical range: 500-4000g for pediatric patients")
+
 with col2:
+    st.markdown("""
+    <div class="input-card">
+        <h4 style="margin-top: 0; color: #424242;">💧 Glucose Volume</h4>
+        <p style="font-size: 12px; color: #666; margin-bottom: 15px;">Total daily volume in mL</p>
+    </div>
+    """, unsafe_allow_html=True)
     # step = 5 for glucose volume increments
-    glu_volume_ml = st.number_input("Glucose volume (mL/day)", min_value=1.0, value=220.0, step=5.0, format="%.0f")
+    glu_volume_ml = st.number_input("Volume (mL/day)", min_value=1.0, value=220.0, step=5.0, format="%.0f",
+                                  help="Common volumes: 100-500 mL/day")
+
 with col3:
+    st.markdown("""
+    <div class="input-card">
+        <h4 style="margin-top: 0; color: #424242;">🎯 Target GIR</h4>
+        <p style="font-size: 12px; color: #666; margin-bottom: 15px;">Glucose Infusion Rate</p>
+    </div>
+    """, unsafe_allow_html=True)
     # step = 0.5 for target GIR increments
-    target_gir = st.number_input("Target GIR (mg/kg/min)", min_value=0.0, value=6.0, step=0.5, format="%.2f")
+    target_gir = st.number_input("GIR (mg/kg/min)", min_value=0.0, value=6.0, step=0.5, format="%.2f",
+                                help="Typical range: 4-12 mg/kg/min")
 
 st.write("---")
 
