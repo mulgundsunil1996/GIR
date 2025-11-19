@@ -203,6 +203,61 @@ h3 { color: #616161; font-weight: 500; }
     animation: fadeIn 0.5s ease-out;
 }
 
+/* Accessibility Improvements */
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .safe-bg {
+        background: #000000;
+        color: #00ff00;
+        border: 2px solid #00ff00;
+    }
+    .caution-bg {
+        background: #000000;
+        color: #ffff00;
+        border: 2px solid #ffff00;
+    }
+    .danger-bg {
+        background: #000000;
+        color: #ff0000;
+        border: 2px solid #ff0000;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .result-card {
+        animation: none;
+    }
+    .stButton > button {
+        transition: none;
+    }
+    .stButton > button:hover {
+        transform: none;
+    }
+}
+
+/* Focus indicators for keyboard navigation */
+.stButton > button:focus,
+.stNumberInput > div > div > input:focus,
+.stSelectbox > div > div > select:focus {
+    outline: 3px solid #2196f3;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.3);
+}
+
+/* Screen reader only text */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
 /* Mixing instruction styling */
 .mixing-step {
     background: #f8f9fa;
