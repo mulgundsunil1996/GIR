@@ -523,8 +523,9 @@ if st.session_state.calculated and st.session_state.last_final_percent is not No
         safety_title = "REQUIRES CENTRAL LINE"
 
     # Prominent Safety Status Card
+    safety_status = "Safe" if level == "safe" else ("Caution" if level == "caution" else "Danger")
     st.markdown(f"""
-    <div class="{safety_class}">
+    <div class="{safety_class}" role="alert" aria-live="polite" aria-label="Safety Status: {safety_status}">
         <h2 style="margin: 0 0 15px 0; font-size: 1.8rem;">
             {safety_icon} {safety_title}
         </h2>
