@@ -478,31 +478,110 @@ if st.session_state.calculated and st.session_state.last_final_percent is not No
     a = float(st.session_state.last_stock_a)
     b = float(st.session_state.last_stock_b)
 
+    # Enhanced Mixing Instructions Section
+    st.markdown("""
+    <div class="result-card">
+        <h4 style="margin-top: 0; color: #1976d2;">🥄 Mixing Instructions</h4>
+    </div>
+    """, unsafe_allow_html=True)
+
     if a == b:
         # if exactly equal and equal to final_percent -> use directly
         if abs(final_percent - a) < 1e-6:
-            st.markdown(f"Use **{a:.1f}%** stock directly — no mixing required.")
+            st.markdown(f"""
+            <div class="mixing-step" style="background: #d4edda; border-left-color: #28a745;">
+                <h5 style="margin-top: 0; color: #155724;">✅ Direct Use - No Mixing Required</h5>
+                <p style="margin-bottom: 0;">
+                    Use <strong>{a:.1f}%</strong> dextrose solution directly.
+                    <br>Total volume needed: <strong>{final_volume_input:.0f} mL</strong>
+                </p>
+            </div>
+            """, unsafe_allow_html=True)
         else:
-            st.warning(f"Selected stocks are identical ({a:.1f}%). Choose two different stocks that bracket the target or enable manual edit.")
+            st.markdown(f"""
+            <div class="mixing-step" style="background: #f8d7da; border-left-color: #dc3545;">
+                <h5 style="margin-top: 0; color: #721c24;">⚠️ Identical Stock Solutions</h5>
+                <p style="margin-bottom: 0;">
+                    Selected stocks are identical ({a:.1f}%). Choose two different stocks that bracket the target concentration.
+                </p>
+            </div>
+            """, unsafe_allow_html=True)
     else:
         v1, v2 = mix_two_solutions(a, b, final_percent, final_volume_input)
         if v1 is None or v2 is None:
-            st.error("Unable to calculate mixture with chosen stocks.")
+            st.markdown(f"""
+            <div class="mixing-step" style="background: #f8d7da; border-left-color: #dc3545;">
+                <h5 style="margin-top: 0; color: #721c24;">❌ Calculation Error</h5>
+                <p style="margin-bottom: 0;">
+                    Unable to calculate mixture with chosen stocks. Please verify your selections.
+                </p>
+            </div>
+            """, unsafe_allow_html=True)
         else:
             if v1 < -1e-6 or v2 < -1e-6:
-                st.error(
-                    "Target concentration is outside the range of chosen stocks. "
-                    "The target must be between the two stock concentrations (one higher, one lower)."
-                )
-                st.write(f"Selected: A={a}%, B={b}%. Target: {final_percent:.2f}%.")
+                st.markdown(f"""
+                <div class="mixing-step" style="background: #fff3cd; border-left-color: #ffc107;">
+                    <h5 style="margin-top: 0; color: #856404;">⚠️ Target Out of Range</h5>
+                    <p style="margin-bottom: 0;">
+                        Target concentration ({final_percent:.2f}%) is outside the range of chosen stocks.
+                        <br>Solution A: {a}%, Solution B: {b}%
+                        <br>The target must be between the two stock concentrations.
+                    </p>
+                </div>
+                """, unsafe_allow_html=True)
             else:
                 v1 = max(0.0, v1)
                 v2 = max(0.0, v2)
-                # The mixing instruction is part of the Result — no separate "mixing suggestion" heading
-                st.markdown(
-                    f"Mix **{v1:.1f} mL** of Solution A (**{a:.1f}%**) with **{v2:.1f} mL** of Solution B (**{b:.1f}%**) "
-                    f"to obtain **{final_volume_input:.0f} mL** of **{final_percent:.2f}%** — this achieves a GIR of **{target_gir:.2f} mg/kg/min**."
-                )
+
+                # Visual Mixing Guide
+                st.markdown(f"""
+                <div style="background: #e8f5e8; padding: 20px; border-radius: 12px; margin: 20px 0; border: 2px solid #4CAF50;">
+                    <h3 style="margin-top: 0; color: #2e7d2e; text-align: center;">🧪 Preparation Instructions</h3>
+
+                    <div style="display: flex; justify-content: space-around; margin: 20px 0; flex-wrap: wrap;">
+                        <div style="text-align: center; padding: 15px; background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); min-width: 150px; margin: 5px;">
+                            <div style="font-size: 24px; margin-bottom: 5px;">🧪</div>
+                            <strong>Solution A</strong><br>
+                            <span style="color: #666;">({a:.1f}%)</span><br>
+                            <div style="font-size: 1.5rem; font-weight: bold; color: #2196f3; margin: 10px 0;">
+                                {v1:.1f} mL
+                            </div>
+                        </div>
+
+                        <div style="text-align: center; padding: 15px; background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); min-width: 150px; margin: 5px;">
+                            <div style="font-size: 24px; margin-bottom: 5px;">➕</div>
+                            <strong>Solution B</strong><br>
+                            <span style="color: #666;">({b:.1f}%)</span><br>
+                            <div style="font-size: 1.5rem; font-weight: bold; color: #2196f3; margin: 10px 0;">
+                                {v2:.1f} mL
+                            </div>
+                        </div>
+
+                        <div style="text-align: center; padding: 15px; background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); min-width: 150px; margin: 5px;">
+                            <div style="font-size: 24px; margin-bottom: 5px;">✅</div>
+                            <strong>Final Solution</strong><br>
+                            <span style="color: #666;">({final_percent:.2f}%)</span><br>
+                            <div style="font-size: 1.5rem; font-weight: bold; color: #4CAF50; margin: 10px 0;">
+                                {final_volume_input:.0f} mL
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="background: white; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                        <h4 style="margin-top: 0; color: #424242;">📋 Step-by-Step Instructions:</h4>
+                        <ol style="line-height: 1.6; color: #666;">
+                            <li>Measure <strong>{v1:.1f} mL</strong> of Solution A ({a:.1f}% dextrose)</li>
+                            <li>Measure <strong>{v2:.1f} mL</strong> of Solution B ({b:.1f}% dextrose)</li>
+                            <li>Mix both solutions thoroughly in a sterile container</li>
+                            <li>Label with concentration, date, and preparer information</li>
+                            <li>Store according to institutional policy</li>
+                        </ol>
+                        <p style="margin-bottom: 0; color: #2196f3; font-weight: 500;">
+                            <strong>Expected GIR: {target_gir:.2f} mg/kg/min</strong>
+                        </p>
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
 
     # concise details
     st.write("---")
