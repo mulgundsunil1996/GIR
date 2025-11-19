@@ -394,25 +394,29 @@ with col1:
 
 with col2:
     st.markdown("""
-    <div class="input-card">
-        <h4 style="margin-top: 0; color: #424242;">💧 Glucose Volume</h4>
+    <div class="input-card" role="region" aria-labelledby="volume-label">
+        <h4 id="volume-label" style="margin-top: 0; color: #424242;">💧 Glucose Volume</h4>
         <p style="font-size: 12px; color: #666; margin-bottom: 15px;">Total daily volume in mL</p>
     </div>
     """, unsafe_allow_html=True)
     # step = 5 for glucose volume increments
     glu_volume_ml = st.number_input("Volume (mL/day)", min_value=1.0, value=220.0, step=5.0, format="%.0f",
-                                  help="Common volumes: 100-500 mL/day")
+                                  help="Common volumes: 100-500 mL/day",
+                                  key="volume_input",
+                                  aria_label="Glucose volume in milliliters per day")
 
 with col3:
     st.markdown("""
-    <div class="input-card">
-        <h4 style="margin-top: 0; color: #424242;">🎯 Target GIR</h4>
+    <div class="input-card" role="region" aria-labelledby="gir-label">
+        <h4 id="gir-label" style="margin-top: 0; color: #424242;">🎯 Target GIR</h4>
         <p style="font-size: 12px; color: #666; margin-bottom: 15px;">Glucose Infusion Rate</p>
     </div>
     """, unsafe_allow_html=True)
     # step = 0.5 for target GIR increments
     target_gir = st.number_input("GIR (mg/kg/min)", min_value=0.0, value=6.0, step=0.5, format="%.2f",
-                                help="Typical range: 4-12 mg/kg/min")
+                                help="Typical range: 4-12 mg/kg/min",
+                                key="gir_input",
+                                aria_label="Target glucose infusion rate in milligrams per kilogram per minute")
 
 st.write("---")
 
