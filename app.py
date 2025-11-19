@@ -436,19 +436,43 @@ if st.session_state.calculated and st.session_state.last_final_percent is not No
 
     st.write("")  # spacer
 
+    # Enhanced Stock Selection Display
+    st.markdown("""
+    <div class="result-card">
+        <h4 style="margin-top: 0; color: #424242;">🧪 Stock Solutions for Mixing</h4>
+    </div>
+    """, unsafe_allow_html=True)
+
     # If user opted to manually edit stocks, show selectboxes; else show the auto-picked stocks (but allow changing via checkbox)
     if st.session_state.manual_stock_edit:
+        st.markdown("""
+        <div style="background: #fff3cd; padding: 15px; border-radius: 8px; border-left: 4px solid #ffc107; margin-bottom: 15px;">
+            <strong>🔧 Manual Selection Mode</strong> - Choose your stock solutions below
+        </div>
+        """, unsafe_allow_html=True)
+
         col1, col2 = st.columns([1, 1])
         with col1:
-            stock_a = st.selectbox("Solution A (%)", stock_options, index=stock_options.index(stock_a) if stock_a in stock_options else 0)
+            stock_a = st.selectbox("Solution A (%)", stock_options,
+                                 index=stock_options.index(stock_a) if stock_a in stock_options else 0,
+                                 help="Lower concentration stock solution")
         with col2:
-            stock_b = st.selectbox("Solution B (%)", stock_options, index=stock_options.index(stock_b) if stock_b in stock_options else 1)
+            stock_b = st.selectbox("Solution B (%)", stock_options,
+                                 index=stock_options.index(stock_b) if stock_b in stock_options else 1,
+                                 help="Higher concentration stock solution")
         # update session state with user picks
         st.session_state.last_stock_a = float(stock_a)
         st.session_state.last_stock_b = float(stock_b)
     else:
         # show auto-picked stocks as info (user can toggle the checkbox to edit)
-        st.info(f"Auto-picked stocks: Solution A = **{stock_a:.1f}%**, Solution B = **{stock_b:.1f}%**. (Enable 'Edit stock choices manually' to change.)")
+        st.markdown(f"""
+        <div style="background: #d1ecf1; padding: 15px; border-radius: 8px; border-left: 4px solid #2196f3;">
+            <strong>🤖 Auto-Selected Stocks:</strong>
+            Solution A = <strong>{stock_a:.1f}%</strong>,
+            Solution B = <strong>{stock_b:.1f}%</strong>
+            <br><small>Enable 'Edit stock choices manually' to customize these selections</small>
+        </div>
+        """, unsafe_allow_html=True)
 
     # compute mixing using currently selected stocks
     a = float(st.session_state.last_stock_a)
