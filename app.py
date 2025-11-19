@@ -153,11 +153,28 @@ h3 { color: #616161; font-weight: 500; }
 }
 </style>
 """, unsafe_allow_html=True)
-st.title("Dextrose Calculator — GIR Calculator")
-st.markdown(
-    "Enter patient weight (grams), glucose volume (mL/day) and target GIR (mg/kg/min). "
-    "Press **Calculate** to compute the required dextrose % and a two-stock mixing instruction."
-)
+# Enhanced Medical Header
+st.markdown("""
+<div class="medical-header">
+    <h1 style="margin: 0; font-size: 2.5rem;">
+        🏥 Dextrose Calculator — GIR Calculator
+    </h1>
+    <p style="margin: 15px 0 0 0; font-size: 1.1rem; opacity: 0.9;">
+        Medical Tool for Glucose Infusion Rate Calculations
+    </p>
+</div>
+""", unsafe_allow_html=True)
+
+st.markdown("""
+<div style="background: #e3f2fd; padding: 20px; border-radius: 12px; margin-bottom: 25px; border-left: 5px solid #2196f3;">
+    <h3 style="margin-top: 0; color: #1976d2;">📋 How to Use</h3>
+    <p style="margin-bottom: 0; line-height: 1.6;">
+        Enter patient weight (grams), glucose volume (mL/day) and target GIR (mg/kg/min).
+        Press <strong>Calculate</strong> to compute the required dextrose concentration
+        and receive detailed mixing instructions with safety recommendations.
+    </p>
+</div>
+""", unsafe_allow_html=True)
 
 # -----------------------
 # Helpers
