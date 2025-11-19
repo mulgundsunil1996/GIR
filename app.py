@@ -360,7 +360,7 @@ if calc_btn:
             st.session_state.calculated = True
 
 # -----------------------
-# Results display (combined, mixing instruction included in result)
+# Enhanced Results Display with Safety-First Design
 # -----------------------
 if st.session_state.calculated and st.session_state.last_final_percent is not None:
     final_percent = st.session_state.last_final_percent
@@ -368,19 +368,71 @@ if st.session_state.calculated and st.session_state.last_final_percent is not No
     stock_b = st.session_state.last_stock_b
     final_volume_input = glu_volume_ml  # internal use; not shown as separate "final volume" input in results
 
-    # top-level result summary (includes the mixing instruction, not labeled separately)
-    st.subheader("Result")
-    st.markdown(f"- Required dextrose concentration: **{final_percent:.2f}%**")
-    st.markdown(f"- Patient: **{weight_g:.0f} g**  •  Glucose volume/day: **{glu_volume_ml:.0f} mL**  •  Target GIR: **{target_gir:.2f} mg/kg/min**")
-
-    # safety message
+    # Safety Assessment First
     level, msg, emoji = safety_message_for_percent(final_percent)
+
+    # Determine color class based on safety level
+    safety_class = ""
+    concentration_class = ""
     if level == "safe":
-        st.success(f"{emoji}  {msg}")
+        safety_class = "safe-bg"
+        concentration_class = "concentration-safe"
+        safety_icon = "✅"
+        safety_title = "SAFE FOR PERIPHERAL INFUSION"
     elif level == "caution":
-        st.warning(f"{emoji}  {msg}")
+        safety_class = "caution-bg"
+        concentration_class = "concentration-caution"
+        safety_icon = "⚠️"
+        safety_title = "CAUTION - PREFER CENTRAL LINE"
     else:
-        st.error(f"{emoji}  {msg}")
+        safety_class = "danger-bg"
+        concentration_class = "concentration-danger"
+        safety_icon = "🚨"
+        safety_title = "REQUIRES CENTRAL LINE"
+
+    # Prominent Safety Status Card
+    st.markdown(f"""
+    <div class="{safety_class}">
+        <h2 style="margin: 0 0 15px 0; font-size: 1.8rem;">
+            {safety_icon} {safety_title}
+        </h2>
+        <p style="margin: 0; font-size: 1.1rem; font-weight: 500;">
+            {msg}
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Main Results Card
+    st.markdown("""
+    <div class="result-card">
+        <h2 style="margin-top: 0; color: #1976d2; text-align: center;">📊 Calculation Results</h2>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Large Concentration Display
+    st.markdown(f"""
+    <div style="text-align: center; margin: 30px 0;">
+        <div style="color: #666; font-size: 1.2rem; margin-bottom: 10px;">Required Dextrose Concentration</div>
+        <div class="concentration-display {concentration_class}">
+            {final_percent:.2f}%
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Patient Parameters Summary
+    st.markdown("""
+    <div class="result-card">
+        <h4 style="margin-top: 0; color: #424242;">👤 Patient Parameters</h4>
+    </div>
+    """, unsafe_allow_html=True)
+
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.metric("Weight", f"{weight_g:.0f} g", help="Patient weight in grams")
+    with col2:
+        st.metric("Daily Volume", f"{glu_volume_ml:.0f} mL", help="Total daily glucose volume")
+    with col3:
+        st.metric("Target GIR", f"{target_gir:.2f} mg/kg/min", help="Glucose Infusion Rate")
 
     st.write("")  # spacer
 
