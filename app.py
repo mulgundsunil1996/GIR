@@ -583,12 +583,67 @@ if st.session_state.calculated and st.session_state.last_final_percent is not No
                 </div>
                 """, unsafe_allow_html=True)
 
-    # concise details
+    # Enhanced Calculation Details
     st.write("---")
-    grams_needed_per_day = (final_percent / 100.0) * glu_volume_ml
-    st.write(f"- Dextrose required per day: **{grams_needed_per_day:.2f} g**")
-    st.write(f"- Formula used: percent (%) = GIR × weight(kg) × 144 / volume(mL/day)")
-    st.caption("⚠️ This calculator is an aid only. Confirm compounding technique, sterility and local policy before administration.")
+    st.markdown("""
+    <div class="result-card">
+        <h4 style="margin-top: 0; color: #424242;">📈 Calculation Details</h4>
+    </div>
+    """, unsafe_allow_html=True)
+
+    col1, col2 = st.columns(2)
+    with col1:
+        grams_needed_per_day = (final_percent / 100.0) * glu_volume_ml
+        st.metric("Daily Dextrose", f"{grams_needed_per_day:.2f} g", help="Total dextrose needed per day")
+
+    with col2:
+        weight_kg = weight_g / 1000.0
+        st.metric("Patient Weight", f"{weight_kg:.2f} kg", help="Weight converted to kilograms")
+
+    # Formula Information
+    with st.expander("🔍 View Calculation Formula", expanded=False):
+        st.markdown(f"""
+        <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 4px solid #2196f3;">
+            <h5 style="margin-top: 0; color: #1976d2;">Formula Used:</h5>
+            <p style="font-family: 'Courier New', monospace; background: white; padding: 10px; border-radius: 4px; margin: 10px 0;">
+                % = GIR × weight(kg) × 144 / volume(mL/day)
+            </p>
+            <p style="margin-bottom: 0;">
+                With your values:<br>
+                % = <strong>{target_gir:.2f}</strong> × <strong>{weight_kg:.2f}</strong> × 144 / <strong>{glu_volume_ml:.0f}</strong><br>
+                % = <strong>{final_percent:.2f}%</strong>
+            </p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    # Professional Footer
+    st.markdown("""
+    <div class="footer">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+            <div style="text-align: left;">
+                <strong>🏥 GIR Calculator v1.0</strong><br>
+                <span style="font-size: 12px;">Professional Medical Tool</span>
+            </div>
+            <div style="text-align: center;">
+                <strong>⚕️ Medical Disclaimer</strong><br>
+                <span style="font-size: 12px;">This calculator is for informational purposes only.
+                Always verify calculations and follow institutional protocols.</span>
+            </div>
+            <div style="text-align: right;">
+                <strong>📧 Support</strong><br>
+                <span style="font-size: 12px;">Contact healthcare IT for assistance</span>
+            </div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
 else:
-    st.info("Enter inputs and press **Calculate** to get result (auto-picks stocks by default).")
+    st.markdown("""
+    <div style="background: #e3f2fd; padding: 20px; border-radius: 12px; text-align: center; border: 2px dashed #2196f3;">
+        <h3 style="margin-top: 0; color: #1976d2;">🧮 Ready to Calculate</h3>
+        <p style="margin-bottom: 0; color: #666;">
+            Enter patient parameters above and click <strong>"Calculate Dextrose Requirements"</strong>
+            to receive detailed mixing instructions with safety recommendations.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
