@@ -288,14 +288,30 @@ with col3:
 
 st.write("---")
 
+# Enhanced Stock Selection Section
+st.markdown("""
+<div class="input-card">
+    <h3 style="margin-top: 0; color: #1976d2;">🧪 Stock Solutions Configuration</h3>
+    <p style="color: #666; margin-bottom: 15px;">
+        Available dextrose concentrations for mixing: 0%, 5%, 10%, 25%, 50%
+    </p>
+</div>
+""", unsafe_allow_html=True)
+
 # stock options (user can edit after results via toggle)
 stock_options = [0.0, 5.0, 10.0, 25.0, 50.0]
 
 # Checkbox toggle: allow user to manually edit stocks AFTER auto-pick
-st.session_state.manual_stock_edit = st.checkbox("Edit stock choices manually after calculation", value=False)
+col1, col2 = st.columns([3, 1])
+with col1:
+    st.session_state.manual_stock_edit = st.checkbox(
+        "🔧 Edit stock choices manually after calculation",
+        value=False,
+        help="Enable to customize stock solutions after initial calculation"
+    )
 
 st.write("---")
-calc_btn = st.button("Calculate")
+calc_btn = st.button("🧮 Calculate Dextrose Requirements", help="Click to calculate concentration and mixing instructions")
 
 # -----------------------
 # Calculation logic
