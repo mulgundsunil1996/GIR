@@ -2,6 +2,157 @@
 import streamlit as st
 
 st.set_page_config(page_title="GIR Calculator", layout="centered")
+
+# Custom CSS for medical professional styling
+st.markdown("""
+<style>
+/* Medical Color Scheme */
+.safe-bg {
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+    color: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 16px 0;
+}
+.safe-text { color: #2e7d2e; }
+
+.caution-bg {
+    background: linear-gradient(135deg, #FF9800, #f57c00);
+    color: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 16px 0;
+}
+.caution-text { color: #e65100; }
+
+.danger-bg {
+    background: linear-gradient(135deg, #F44336, #d32f2f);
+    color: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 16px 0;
+}
+.danger-text { color: #c62828; }
+
+/* Medical Professional Styling */
+.medical-header {
+    background: linear-gradient(135deg, #2196f3, #1976d2);
+    color: white;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.input-card {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 24px;
+    margin: 16px 0;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.result-card {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 24px;
+    margin: 16px 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.safety-card {
+    border-left: 6px solid;
+    padding: 16px;
+    border-radius: 0 8px 8px 0;
+    margin: 16px 0;
+}
+
+.concentration-display {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.concentration-safe { color: #4CAF50; }
+.concentration-caution { color: #FF9800; }
+.concentration-danger { color: #F44336; }
+
+/* Typography and Spacing */
+h1 { color: #1976d2; font-weight: 600; }
+h2 { color: #424242; font-weight: 500; }
+h3 { color: #616161; font-weight: 500; }
+
+/* Button Styling */
+.stButton > button {
+    background-color: #2196f3;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.stButton > button:hover {
+    background-color: #1976d2;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Input Field Styling */
+.stNumberInput > div > div > input {
+    border-radius: 8px;
+    border: 2px solid #e0e0e0;
+    padding: 8px 12px;
+}
+
+.stNumberInput > div > div > input:focus {
+    border-color: #2196f3;
+    box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .medical-header { padding: 20px; }
+    .input-card { padding: 16px; }
+    .result-card { padding: 16px; }
+    .concentration-display { font-size: 2rem; }
+}
+
+/* Animation for results */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.result-card {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Mixing instruction styling */
+.mixing-step {
+    background: #f8f9fa;
+    border-left: 4px solid #2196f3;
+    padding: 12px 16px;
+    margin: 8px 0;
+    border-radius: 0 8px 8px 0;
+}
+
+/* Professional footer */
+.footer {
+    background: #f5f5f5;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 30px;
+    text-align: center;
+    color: #757575;
+    font-size: 14px;
+}
+</style>
+""", unsafe_allow_html=True)
 st.title("Dextrose Calculator — GIR Calculator")
 st.markdown(
     "Enter patient weight (grams), glucose volume (mL/day) and target GIR (mg/kg/min). "
